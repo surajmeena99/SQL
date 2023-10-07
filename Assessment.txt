@@ -1,0 +1,109 @@
+create database assessment;
+
+use assessment;
+
+create table country(
+id int primary key,
+country_name varchar(40),
+country_name_eng varchar(40),
+country_code varchar(40)
+);
+
+insert into country
+(id, country_name, country_name_eng, country_code)
+values
+(1, "Deutschland", "Germany", "DEU"),
+(2, "Srbija", "Serbia", "SRB"),
+(3, "Hrvatska", "Croatia", "HRV"),
+(4, "United State of America", "United States of America", "USA"),
+(5, "Polska", "Poland", "POL"),
+(6, "Espana", "Spain", "ESP"),
+(7, "Rossiya", "Russia", "RUS");
+
+create table city(
+id int primary key auto_increment,
+city_name varchar(40),
+latitude decimal(9,6) not null,
+longitude decimal(9,6) not null,
+country_id int,
+
+foreign key (country_id) references country(id)
+);
+
+insert into city
+(city_name, latitude,longitude,country_id)
+values
+("Berlin", 52.520008, 13.404954, 1),
+("Belgrade", 44.787197, 20.457273, 2),
+("Zagreb", 45.815399, 15.966568, 3),
+("New York", 40.730610, -73.935242, 4),
+("Los Angeles", 34.052235, -118.243683, 4),
+("Warsaw", 52.237049, 21.017532, 5);
+
+create table customer(
+id int primary key auto_increment,
+customer_name varchar(40),
+city_id int not null,
+foreign key (city_id) references city(id),
+customer_address varchar(40), 
+next_call_date date,
+ts_inserted timestamp default current_timestamp
+);
+
+insert into customer
+(customer_name, city_id, customer_address, next_call_date)
+values
+("Jewelry Store", 4, "long street 120", '2020-01-21'),
+("Bakery", 1, "Kurfurstenamm 25", '2020-02-21'),
+("Cafe", 1, "Tauerntzienstrabe 44", '2020-01-21'),
+("Restaurant", 3, "Ulica lipa 15", '2020-01-21');
+
+
+/*task: 1.1 (List all countries and customers related to these countries.) */
+
+select country.country_name_eng, customer.customer_name from country
+join city
+on country.id = city.country_id
+join customer
+on city.id = customer.city_id;
+
+/*task: 1.2 (For each country displaying its name in english, the name of the city customer is located in as well as the name of the customer.)*/
+
+select country.country_name_eng, city.city_name, customer.customer_name from country
+join city
+on country.id = city.country_id
+join customer
+on city.id = customer.city_id;
+
+/*task: 1.3 (Return even countaries without related cities and customers.)*/
+
+select country.country_name_eng from country
+left join city
+on country.id = city.country_id
+where country_id is null;
+
+/*task: 2.1 (Return the list of all countries that have pairs.for such pairs return all customers.) */
+ 
+select country.country_name_eng, city.city_name, customer.customer_name from country
+left join city
+on country.id = city.country_id
+left join customer
+on city.id = customer.city_id
+where country_id is not null;
+
+/*task: 2.2 (Return even pairs of not having a single customer.)*/
+
+select country.country_name_eng, city.city_name from country
+left join city
+on country.id = city.country_id
+left join customer
+on city.id = customer.city_id
+where city_id is null and country_id is not null;
+
+
+
+
+
+
+
+
