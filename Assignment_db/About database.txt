@@ -1,0 +1,50 @@
+
+1. Database:--> A Database is a structured collection of data that is organized and stored in a systematic way, 
+typically within computer system. It is designed to efficiently store, manage, retrieve, and manipulate data.
+Database are used to store various types of information, such as customer records, product catalogs, financial
+transactions and more.
+
+2. Normalization:--> Normalization is a database design technique used to organize data in a relational database
+efficiently and eliminate data redundancy. Its primary goal is to reduce data anomalies, such as insertion, update,
+and deletion anomalies, which can occur when data is not properly structured.
+Normalization helps maintain data integrity and consistency in relational databases, making it easier to update 
+and maintain the database over time.
+
+3. DBMS:--> DBMS can manage any type of data, including structured, semi-structured, and unstructured data.
+DBMS may not support complex relationships between data elements. 
+DBMS may have its query language, but it might not support advanced query capabilities like JOIN operations or 
+complex queries.
+DBMS can be more flexible in terms of data schema changes. It allows for alterations in data structure without 
+strict constraints.
+
+4. RDBMS:--> RDBMS specifically manages structured data using tables with rows and columns.
+RDBMS is designed for data with well-defined relationships.
+RDBMS typically uses SQL (Structured Query Language) for querying dat, providing robust support for complex queries,
+jiins, and data manipulation.
+RDBMS has a rigid schema where changes to the structure (adding or modifying tables/ columns) can be complex and 
+require careful planning.
+
+5. Data Redundancy:--> Data Redundancy refers to the duplication of data within a database or information system.
+It occurs when the same piece of data is stored in multiple places, leading to inefficiencies and potential issues.
+
+Horizontal Redunsancy: This occurs when identical data is stored in multiple rows of a database table. If you have
+a customer address is stored for each purchase they make, it results in horizontal redundancy.
+
+vertical Redundancy: This happens when the same data is stored ina multiple tables, usually due to poor database
+design. For instance, if you store customer addresses in both a "Customers" table and an "Orders" table, 
+it leads to vertical redundancy.
+
+Temporal Tedundancy: This arises when historical data is repeatedly stored. if a customer's address changes, but the
+old address is not updated or retained elsewhere,you have temporal redundancy.
+
+6. DDL Interpreter:--> A DDL(Data Definition Language) interpreter is a component or module within a Database 
+management system(DBMS) responsible for processing and executing DDL statements. DDL is a subset of SQL
+(Structured Query Language) used to define, modify, and manage the structure of a database, including tables, 
+indexes, constraints, and other schema-related elements.
+
+7. DML Compiler:--> Data Manipulation Language is a subset of SQL used for manipulating and querying data within
+a database. It includes statements like SELECT, INSERT, UPDATE, and DELETE, which are used to retrieve, add,
+modify and delete data stored in database tables.
+
+
+

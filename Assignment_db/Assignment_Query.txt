@@ -1,0 +1,205 @@
+create database assignment_db;
+
+use assignment_db;
+
+/* Task 1. create table Name: Student and Exam */
+
+create table Student(
+Rollnu int primary key,
+Name varchar(50),
+Branch varchar(50)
+);
+
+insert into Student
+(Rollnu, Name, Branch)
+values
+(1, "Jay", 'Computer Science'),
+(2, "Suhani", 'Electronic and Com'),
+(3, "Kriti", 'Electronic and Com');
+
+select * from Student;
+
+create table Exam(
+Rollnu int,
+S_code varchar(20),
+Marks int,
+P_code varchar(20),
+
+foreign key (Rollnu) references Student(Rollnu)
+);
+
+insert into Exam
+(Rollnu, S_code, Marks, P_code)
+values
+(1, 'CS11', 50, 'CS'),
+(1, 'CS12', 60, 'CS'),
+(2, 'EC101', 66, 'EC'),
+(2, 'EC102', 70, 'EC'),
+(3, 'EC101', 45, 'EC'),
+(3, 'EC102', 50, 'EC');
+
+select * from Exam;
+
+/* Task 2. create table Name: Employee and Incentive */
+
+create table Employee(
+Employee_id int primary key auto_increment,
+First_name varchar(40),
+Last_name varchar(40),
+Salary int,
+Joining_date datetime,
+Department varchar(40)
+);
+
+insert into Employee
+(First_name, Last_name, Salary, Joining_date, Department)
+values
+('John', 'Abraham', 1000000, '2013-01-01 00:00:00', 'Banking'),
+('Michael', 'Clarke', 800000, '2013-01-01 00:00:00', 'Insurance'),
+('Roy', 'Thomas', 700000, '2013-02-01 00:00:00', 'Banking'),
+('Tom', 'Jose', 600000, '2013-02-01 00:00:00', 'Insurance'),
+('Jerry', 'Pinto', 650000, '2013-02-01 00:00:00', 'Insurance'),
+('Philip', 'Nathew', 750000, '2013-01-01 00:00:00', 'Services'),
+('TestName1', '123', 650000, '2013-01-01 00:00:00', 'Services'),
+('TestName2', 'Lname%', 600000, '2013-02-01 00:00:00', 'Insurance');
+
+select * from Employee;
+
+create table Incentive(
+Employee_ref_id int,
+Incentive_date date,
+Incentive_amount int,
+foreign key (Employee_ref_id) references Employee(Employee_id)
+);
+
+insert into Incentive
+(Employee_ref_id, Incentive_date, Incentive_amount)
+values
+(1, '2013-02-01', 5000),
+(2, '2013-02-01', 3000),
+(3, '2013-02-01', 4000),
+(1, '2013-02-01', 4500),
+(2, '2013-01-01', 3500);
+
+select * from Incentive;
+
+/* Get Full_Name from employee table using Tom name "Employee Name". */
+
+select concat(First_name, ' ', Last_name) as Full_Name from Employee
+where First_name = 'Tom';
+
+/* Get First_name, Joining Date and Salary from employee table */
+
+select First_name, Joining_date, Salary from employee;
+
+/* Get all employee details from the employee table order by First_name ascending and Salary descending. */
+
+select * from Employee
+order by First_name asc, Salary desc;
+
+/* Get employee details from employee table whose first name contains 'J'. */
+
+select * from Employee 
+where First_name like 'J%';
+
+/* Get department wise maximum salary from employee table order by salary Ascending */
+
+select Department, max(Salary) as Max_salary from Employee
+group by Department;
+
+select Department, Max_salary from(
+select Department, max(Salary) as Max_salary from Employee
+group by Department) as DepartmentMaxSalaries
+order by Max_salary asc;
+
+/* Select first_name, incentive amount from employee and incentive table forthose employees who have incentive amount greater than 3000. */
+
+select E.First_name, I.Incentive_amount from Employee as E
+join Incentive as I
+on E.Employee_id = I.Employee_ref_id
+where I.Incentive_amount > 3000;
+
+/* create After Insert trigger on Employee table which insert records in viewtable */
+
+create view ViewTable as 
+select Employee_id, First_name, Last_name, Salary, Joining_date, Department
+from employee;
+
+delimiter $$
+create trigger after_employee_insert
+after insert
+on Employee
+for each row
+begin
+  insert into ViewTable (Employee_id, First_name, Last_name, Salary, Joining_date, Department)
+  values (new.Employee_id, new.First_name, new.Last_name, new.Salary, new.Joining_date, new.Department);
+end;
+
+drop trigger after_employee_insert;
+
+/* Task 2. create table Name: Salesperson and Customer */
+
+create table salesperson (
+sno int primary key,
+sname varchar(255),
+city varchar(255),
+comm decimal(10,2)
+);
+
+insert into salesperson
+(sno, sname, city, comm)
+values
+(1001, 'Peel', 'London', .12),
+(1002, 'Serres', 'San Jose', .13),
+(1004, 'Motika', 'London', .11),
+(1007, 'Rafkin', 'Barcelona', .15),
+(1003, 'Axelrod', 'New York', .1);
+
+select * from salesperson;
+
+create table customer(
+cnm int primary key,
+cname varchar(255),
+city varchar(255),
+rating int,
+sno_fk int,
+foreign key (sno_fk) references salesperson(sno)
+);
+
+insert into customer
+(cnm, cname, city, rating, sno_fk)
+values
+(201, 'Hoffman', 'London', 100, 1001),
+(202, 'Giovanne', 'Roe', 200, 1003),
+(203, 'Liu', 'San Jose', 300, 1002),
+(204, 'Grass', 'Barcelona', 100, 1002),
+(206, 'Clemens', 'London', 300, 1007),
+(207, 'Pereira', 'Roe', 100, 1004);
+
+select * from customer;
+
+/* Names and cities of all salespeople in london with commission above 0.11 */
+
+select sname, city from salesperson
+where city = 'London' and comm > 0.11;
+
+/* All salespeople either in Barcelona or in London */
+
+select * from salesperson 
+where city = 'Barcelona' or city = 'London';
+
+/* All salespeople with commission between 0.10 and 0.12  */
+
+select * from salesperson
+where comm > 0.10 and comm < 0.12;
+
+/* All customers excluding those with rating <= 100 unless they are located in Rome. */
+
+select * from customer 
+where rating > 100 or (rating <= 100 and city = 'Rome');
+
+
+
+
+
+

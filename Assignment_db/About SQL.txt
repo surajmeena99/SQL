@@ -1,0 +1,65 @@
+1. SQL key Constraints:--> In SQL, key constraints are used to define rules related to the uniqueness and integrity of data 
+within database tables.
+Primary Key Constraint: Ensures that a column or set of columns uniquely identifies each row in a table. It enforces
+both uniqueness and not allowing NULL values.Example:
+CREATE TABLE Students (
+    StudentID INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50)
+);
+
+Unique Key Constraint: Ensures that the values in a column or set of columns are unique across all rows in the table
+but allows NULL values.Example:
+CREATE TABLE products(
+    ProductCode VARCHAR(10) UNIQUE,
+    ProductName VARCHAR(100),
+    Price DECIMAL(10,2)
+);
+
+Foreign Key Constraint: Establishes a relationship between two tables by enforcing referential integrity. It Ensures
+that values in one table's foreign key column(s) match values in another table's primary key column(s).Example:
+CREATE TABLE Customers(
+    CustomerID INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50)
+);
+CREATE TABLE Orders(
+    OrderID INT PRIMARY KEY,
+    CustomerID_fk INT,
+    OrderDate DATE,
+    FOREIGN KEY (CustomerID_fk) REFERENCES Customers(CustomerID)
+);
+
+2. Save Point:--> A save point in SQL is a point within a transaction where you can save the current state of 
+the transaction so that you can later roll back to that point if needed. Savepoints are typically used in database
+systems that support transactions, such as relational database management systems(RDBMS). They provide a way
+to divide a transaction into smaller, more manageable segments.Example:
+
+BEGIN;
+
+INSERT INTO Employees(EmployeeID, FirstName, LastName)
+VALUES(101, 'Suraj', 'Meena');
+
+SAVEPOINT my_savepoint;
+
+UPDATE Employees 
+SET Slary = 55000
+WHERE EmployeeID = 101;
+
+ROLLBACK TO my_savepoint;
+
+COMMIT;
+
+3. Trigger:--> A trigger in SQL is a set of actions that are automatically performed when a specified event occurs
+in a database. These events can include INSERT, UPDATE, DELETE, or other data manipulation operations on specific 
+database tables. Triggers are used to enforce data integrity rules, perform logging, or automate tasks based on 
+certain conditions.Example:
+
+CREATE TRIGGER update_last_modified
+AFTER UPDATE ON Employees
+FOR EACH row
+BEGIN
+   UPDATE Employees
+   SET LastModified = NOW()
+   WHERE EmployeeID = NEW.EmployeeID;
+END;
