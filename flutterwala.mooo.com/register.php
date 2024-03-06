@@ -1,6 +1,6 @@
 <?php
 
-  $db = mysqli_connect('localhost','surmee9_fluttercrud','Suraj@579','surmee9_fluttercrud');
+  $db = mysqli_connect('localhost','username','password','dbname');
   if(!$db){
      echo "Database connection failed";
      exit();
