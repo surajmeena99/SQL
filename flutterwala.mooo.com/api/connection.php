@@ -1,10 +1,11 @@
 <?php
 class dbObj
 {
+  /* please write as per your connection information */
   var $servername = "localhost";
-  var $username = "surmee9_fluttercrud";
-  var $password = "Suraj@579";
-  var $dbname = "surmee9_fluttercrud";
+  var $username = "surajmeena";
+  var $password = "123456789";
+  var $dbname = "surajmeena";
   var $conn;
 
   function getConnstring()
