@@ -1,7 +1,7 @@
 <?php
 class authObj
 {
-	var $token = "flutterwalatoken";
+	var $token = "TokenName";
 	function authenticate()
 	{
 		$headers = getallheaders();
